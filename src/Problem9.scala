@@ -13,19 +13,17 @@ import scala.compat.Platform
  */
 object Problem9 {
     def pack(list: List[Any]): List[Any] = {
-        def packHelper(input: List[Any], currentElement: Any, result: List[Any]): List[Any] = {
-            input match {
-                case Nil => result
-                case x :: xs if x == currentElement => packHelper(xs, x, x :: result)
-                case x :: xs if result == Nil => packHelper(xs, x, x :: Nil)
-                case x :: xs => result :: packHelper(xs, x, x :: Nil)
+        if (list.isEmpty) List(List())
+        else {
+            val (packed, next) = list span {
+                _ == list.head
             }
+            if (next == Nil) List(packed)
+            else packed :: pack(next)
         }
-        packHelper(list, Nil, Nil)
     }
 
     def main(args: Array[String]) {
-        //pack(List(List('A', 'A', 'A', 'A'), List('B'), List('C', 'C'), List('A', 'A'), List('D'), List('E', 'E', 'E', 'E')))
         println(pack(List('a', 'a', 'a', 'a', 'b', 'c', 'c', 'a', 'a', 'd', 'e', 'e', 'e', 'e')))
     }
 

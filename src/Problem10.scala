@@ -15,19 +15,28 @@
 object Problem10 {
 
     def pack(list: List[Any]): List[Any] = {
-        def packHelper(input: List[Any], currentElement: Any, result: List[Any]): List[Any] = {
-            input match {
-                case Nil => result
-                case x :: xs if x == currentElement => packHelper(xs, x, x :: result)
-                case x :: xs if result == Nil => packHelper(xs, x, x :: Nil)
-                case x :: xs => result :: packHelper(xs, x, x :: Nil)
+        if (list.isEmpty) List(List())
+        else {
+            val (packed, next) = list span {
+                _ == list.head
             }
+            if (next == Nil) List(packed)
+            else packed :: pack(next)
         }
-        packHelper(list, Nil, Nil)
     }
 
     def encode[T](list: List[T]): List[(Int, T)] = {
-        pack(list) map { p => ( p.length, p.head ) }
+        def encodeHelper[T](packedList: List[Any], result: List[(Int, T)]): List[(Int, T)] = {
+            packedList match {
+                case Nil => Nil
+                case (x: List[T]) :: Nil =>
+                    result ::: List((x.length, x.head))
+                case (x: List[T]) :: (xs: List[T]) =>
+                    result ::: List((x.length, x.head)) ::: encodeHelper(xs, result)
+                case _ => Nil
+            }
+        }
+        encodeHelper(pack(list), Nil)
     }
 
     def main(args: Array[String]): Unit = {
