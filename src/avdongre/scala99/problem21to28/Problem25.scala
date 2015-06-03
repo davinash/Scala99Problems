@@ -1,3 +1,5 @@
+package avdongre.scala99.problem21to28
+
 import scala.util.Random
 
 /**

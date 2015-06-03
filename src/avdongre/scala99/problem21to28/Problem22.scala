@@ -1,3 +1,5 @@
+package avdongre.scala99.problem21to28
+
 /**
  * Created by adongre on 29/5/15.
  */
