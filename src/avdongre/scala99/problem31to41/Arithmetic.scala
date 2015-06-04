@@ -85,6 +85,45 @@ object Arithmetic {
         primeFactorsHelper(3, input, Nil)
     }
 
+    /* Problem 36
+     * (**) Determine the prime factors of a given positive integer.
+     * Construct a list containing the prime factors and their multiplicity.
+     * Example:
+     * (prime-factors-mult 315)
+     * ((3 2) (5 1) (7 1))
+     */
+    def primeFactorsMult(input: Int): List[(Int, Int)] = {
+        def primeFactorsMultHelper(v: List[Int], acc: List[(Int, Int)]): List[(Int, Int)] = {
+
+            v match {
+                case Nil => Nil
+                case x :: Nil => acc ::: List((x, 1))
+                case x :: xs if (x == xs.head) && acc.isEmpty => {
+                    primeFactorsMultHelper(xs, acc ::: List((x, 1)))
+                }
+                case x :: xs if (x == xs.head) => {
+                    primeFactorsMultHelper(xs, acc ::: List((acc.head._1, acc.head._2 + 1)))
+                }
+                case x :: xs => {
+                    primeFactorsMultHelper(xs, acc ::: List((x, 1)))
+                }
+            }
+        }
+
+        def accumulateResult(input: List[(Int, Int)], accResult: List[(Int, Int)]): List[(Int, Int)] = {
+            input match {
+                case Nil => Nil
+                case x :: Nil => accResult ::: List((x._1, x._2))
+
+                case x :: xs if (x._1 == xs.head._1) => {
+                    accumulateResult(xs.tail, accResult ::: List((x._1, x._2 + 1)))
+                }
+                case x :: xs => accumulateResult(xs, accResult ::: List((x._1, x._2)))
+            }
+        }
+        accumulateResult(primeFactorsMultHelper(primeFactors(input), Nil), Nil)
+    }
+
 
     def main(args: Array[String]): Unit = {
         try {
@@ -106,6 +145,8 @@ object Arithmetic {
         assert(totientPhi(10) == 4)
 
         println(primeFactors(315))
+
+        println(primeFactorsMult(315))
 
     }
 }
