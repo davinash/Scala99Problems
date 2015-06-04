@@ -72,24 +72,17 @@ object Arithmetic {
      * (**) Determine the prime factors of a given positive integer.
      * Construct a flat list containing the prime factors in ascending order.
      */
-    def primeFactors(number: Int): List[Int] = {
-        def primeFactorsHelper(curNum:Int, acc: List[Int]) : List[Int] = {
-            curNum match {
-                case 1 => acc
-                case _ => {
-                    if ( number % curNum == 0 ) {
-                        primeFactorsHelper(curNum - 1, curNum :: acc)
-                    } else {
-                        primeFactorsHelper(curNum - 1, acc)
-                    }
+    def primeFactors(input: Int): List[Int] = {
+        def primeFactorsHelper(prmFctr: Int, number: Int, acc: List[Int]): List[Int] = {
+            prmFctr match {
+                case x if (prmFctr > number) => acc
+                case x if (isPrime(prmFctr) && (number % prmFctr == 0)) => {
+                    primeFactorsHelper(prmFctr, number / prmFctr, acc ::: List(prmFctr))
                 }
+                case _ => primeFactorsHelper(prmFctr + 1, number, acc)
             }
         }
-        val v = primeFactorsHelper(number -1, Nil)
-        println("V => " + v)
-        val f = v.filter(isPrime(_))
-        println("F => " + f)
-        Nil
+        primeFactorsHelper(3, input, Nil)
     }
 
 
@@ -102,6 +95,8 @@ object Arithmetic {
         }
         assert(isPrime(7) == true)
         assert(isPrime(6) == false)
+        assert(isPrime(2) == true)
+
 
         assert(gcd(36, 63) == 9)
         assert(gcd(35, 64) == 1)
