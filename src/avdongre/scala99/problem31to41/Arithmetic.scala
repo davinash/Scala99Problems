@@ -124,6 +124,26 @@ object Arithmetic {
         accumulateResult(primeFactorsMultHelper(primeFactors(input), Nil), Nil)
     }
 
+    /*
+     * Problem 39
+     * (*) A list of prime numbers.
+     * Given a range of integers by its lower and upper limit,
+     * construct a list of all prime numbers in that range.
+     * Example in Haskell:
+     * P29> primesR 10 20
+     * [11,13,17,19]
+     */
+    def primesR(lower: Int, upper: Int): List[Int] = {
+        def primesRHelper(start: Int, acc: List[Int]): List[Int] = {
+            start match {
+                case x if start > upper => acc.reverse
+                case x if isPrime(start) => primesRHelper(start + 1, x :: acc)
+                case x => primesRHelper(start + 1, acc)
+            }
+        }
+        primesRHelper(lower, Nil)
+    }
+
 
     def main(args: Array[String]): Unit = {
         try {
@@ -147,6 +167,7 @@ object Arithmetic {
         println(primeFactors(315))
 
         println(primeFactorsMult(315))
+        println(primesR(10, 20))
 
     }
 }
