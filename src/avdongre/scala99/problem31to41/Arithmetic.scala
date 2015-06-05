@@ -166,6 +166,17 @@ object Arithmetic {
 
     }
 
+    /*
+     * Problem 41
+     * (**) Given a range of integers by its lower and upper
+     * limit, print a list of all even numbers and their Goldbach composition.
+     * In most cases, if an even number is written as the sum of two prime numbers,
+     * one of them is very small. Very rarely, the primes are both bigger than say 50.
+     * Try to find out how many such cases there are in the range 2..3000.
+     */
+    def goldbachList(lower: Int, upper: Int): List[(Int, Int)] = {
+        (lower to upper filter (_ % 2 == 0)).toList map (p => goldbach(p))
+    }
 
 
     def main(args: Array[String]): Unit = {
@@ -193,6 +204,8 @@ object Arithmetic {
         println(primesR(10, 20))
 
         println(goldbach(28))
+
+        println(goldbachList(9, 20))
 
     }
 }
