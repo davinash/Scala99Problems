@@ -167,6 +167,7 @@ object Arithmetic {
     }
 
 
+
     def main(args: Array[String]): Unit = {
         try {
             isPrime(1)
